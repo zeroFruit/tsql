@@ -1,3 +1,13 @@
 .idea/
 cmake-build-debug/
 CMakeLists.txt
+
+**/node_modules/
+**/package-lock.json
+
+.rspec
+spec/
+.bundle/
+bin/
+Gemfile.lock
+tsql
