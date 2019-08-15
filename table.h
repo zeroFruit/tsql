@@ -5,14 +5,23 @@
 #ifndef TSQL_TABLE_H
 #define TSQL_TABLE_H
 
+#include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #define TABLE_MAX_PAGES 100
 
 // HARDCODED!!
 #define COLUMN_USERNAME_SIZE 32
 #define COLUMN_EMAIL_SIZE 255
+
+typedef struct {
+    int file_descriptor;
+    uint32_t file_length;
+    void* pages[TABLE_MAX_PAGES];
+} Pager;
 
 typedef struct {
     uint32_t id;
@@ -40,12 +49,14 @@ extern const uint32_t TABLE_MAX_ROWS;
 
 typedef struct {
     uint32_t num_rows;
-    void* pages[TABLE_MAX_PAGES];
+    Pager* pager;
 } Table;
 
-Table* new_table();
+Table* db_open(const char* filename);
+void db_close(Table* table);
 
 void free_table(Table* table);
+
 
 void* row_slot(Table* table, uint32_t row_num);
 

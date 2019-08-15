@@ -1,11 +1,17 @@
-#include "table.h"
 #include "compiler.h"
 #include "core.h"
+#include "table.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    printf("Must supply a database filename.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  char* filename = argv[1];
+  Table* table = db_open(filename);
+
   InputBuffer* input_buffer = new_input_buffer();
-
-  Table* table = new_table();
 
   while (true) {
     print_prompt();
@@ -16,7 +22,7 @@ int main() {
     }
 
     if (input_buffer->buffer[0] == '.') {
-      switch (do_meta_command(input_buffer)) {
+      switch (do_meta_command(input_buffer, table)) {
         case META_COMMAND_SUCCESS:
           continue;
         case META_COMMAND_UNRECOGNIZED_COMMAND:

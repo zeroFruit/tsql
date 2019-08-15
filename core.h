@@ -19,7 +19,7 @@ typedef enum {
     META_COMMAND_UNRECOGNIZED_COMMAND,
 } MetaCommandResult;
 
-MetaCommandResult do_meta_command(InputBuffer* input_buffer);
+MetaCommandResult do_meta_command(InputBuffer* input_buffer, Table* table);
 
 void serialize_row(Row* source, void* destination);
 void deserialize_row(void* source, Row* destination);

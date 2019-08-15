@@ -11,3 +11,5 @@ spec/
 bin/
 Gemfile.lock
 tsql
+
+*.db
