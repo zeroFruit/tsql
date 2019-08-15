@@ -9,47 +9,28 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include <unistd.h>
 
-#define TABLE_MAX_PAGES 100
+#include "row.h"
+#include "btree.h"
 
-// HARDCODED!!
-#define COLUMN_USERNAME_SIZE 32
-#define COLUMN_EMAIL_SIZE 255
+#define TABLE_MAX_PAGES 100
 
 typedef struct {
     int file_descriptor;
     uint32_t file_length;
+    uint32_t num_pages;
     void* pages[TABLE_MAX_PAGES];
 } Pager;
 
-typedef struct {
-    uint32_t id;
-    char username[COLUMN_USERNAME_SIZE + 1];
-    char email[COLUMN_EMAIL_SIZE + 1];
-} Row;
+void* get_page(Pager* pager, uint32_t page_num);
 
-void print_row(Row* row);
-
-#define size_of_attribute(Struct, Attribute) sizeof(((Struct*)0)->Attribute)
-
-extern const uint32_t ID_SIZE;
-extern const uint32_t USERNAME_SIZE;
-extern const uint32_t EMAIL_SIZE;
-
-extern const uint32_t ID_OFFSET;
-extern const uint32_t USERNAME_OFFSET;
-extern const uint32_t EMAIL_OFFSET;
-
-extern const uint32_t ROW_SIZE;
-
-extern const uint32_t PAGE_SIZE;
-extern const uint32_t ROWS_PER_PAGE;
-extern const uint32_t TABLE_MAX_ROWS;
+static const uint32_t PAGE_SIZE = 4096;
 
 typedef struct {
-    uint32_t num_rows;
+    uint32_t root_page_num;
     Pager* pager;
 } Table;
 
@@ -60,7 +41,8 @@ void free_table(Table* table);
 
 typedef struct {
   Table* table;
-  uint32_t row_num;
+  uint32_t page_num;
+  uint32_t cell_num;
   bool end_of_table; // Indicates a position one past the last element
 } Cursor;
 
@@ -70,5 +52,7 @@ Cursor* table_end(Table* table);
 void* cursor_value(Cursor* cursor);
 
 void cursor_advance(Cursor* cursor);
+
+void leaf_node_insert(Cursor* cursor, uint32_t key, Row* value);
 
 #endif //TSQL_TABLE_H

@@ -2,8 +2,8 @@
 // Created by zf on 2019-08-14.
 //
 
-#ifndef CORE_H
-#define CORE_H
+#ifndef VM_H
+#define VM_H
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -20,10 +20,6 @@ typedef enum {
 } MetaCommandResult;
 
 MetaCommandResult do_meta_command(InputBuffer* input_buffer, Table* table);
-
-void serialize_row(Row* source, void* destination);
-void deserialize_row(void* source, Row* destination);
-
 
 typedef enum {
     EXECUTE_SUCCESS,

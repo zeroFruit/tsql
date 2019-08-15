@@ -1,5 +1,5 @@
 build: src/main.c
-	gcc src/table.c src/compiler.c src/core.c src/main.c -o tsql
+	gcc src/row.c src/btree.c src/table.c src/compiler.c src/vm.c src/main.c -o tsql
 
 run: tsql
 	./tsql
