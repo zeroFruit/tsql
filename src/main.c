@@ -1,5 +1,5 @@
 #include "compiler.h"
-#include "core.h"
+#include "vm.h"
 #include "table.h"
 
 int main(int argc, char* argv[]) {
