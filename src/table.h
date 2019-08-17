@@ -47,7 +47,7 @@ typedef struct {
 } Cursor;
 
 Cursor* table_start(Table* table);
-Cursor* table_end(Table* table);
+Cursor* table_find(Table* table, uint32_t key);
 
 void* cursor_value(Cursor* cursor);
 

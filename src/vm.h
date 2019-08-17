@@ -23,6 +23,7 @@ MetaCommandResult do_meta_command(InputBuffer* input_buffer, Table* table);
 
 typedef enum {
     EXECUTE_SUCCESS,
+    EXECUTE_DUPLICATE_KEY,
     EXECUTE_TABLE_FULL,
 } ExecuteResult;
 
